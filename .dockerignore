@@ -1,0 +1,7 @@
+venv/
+browser-profile/
+browser-profile.old-chromium/
+bot-state.sqlite
+__pycache__/
+*.pyc
+.env

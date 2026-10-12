@@ -1,0 +1,7 @@
+greenlet==3.5.1
+playwright==1.60.0
+pyee==13.0.1
+PyMySQL==1.2.0
+python-dotenv==1.2.2
+SQLAlchemy==2.0.50
+typing_extensions==4.15.0

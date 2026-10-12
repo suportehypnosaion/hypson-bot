@@ -1,0 +1,6 @@
+.env
+browser-profile/
+bot-state.sqlite
+venv/
+__pycache__/
+env/

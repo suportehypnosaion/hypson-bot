@@ -1,0 +1,42 @@
+services:
+  psike-meet-bot:
+    build:
+      context: .
+      args:
+        # Must equal `id -u` of whoever owns ./browser-profile on the
+        # host. Set HOST_UID in .env (or export it) before building.
+        HOST_UID: ${HOST_UID:-1000}
+    container_name: psike-meet-bot
+    restart: unless-stopped
+    env_file: .env
+    network_mode: host
+    environment:
+      # Timezone comes from .env too (single place for all config).
+      TZ: ${TZ:-Asia/Kolkata}
+    volumes:
+      # The signed-in Chrome profile. Created by running
+      # `python -m scripts.setup_profile` on a machine with a screen,
+      # then copied here. Re-copy whenever Google expires the cookies.
+      - ./browser-profile:/profile/browser-profile
+      # Tracker DB survives container rebuilds.
+      - bot-data:/data
+    # Chrome is shared-memory hungry; default 64 MB causes tab crashes.
+    shm_size: "1gb"
+    # Cap container logs so they can't grow unbounded and fill the disk
+    # (rotate at 10 MB, keep 3 files → ≈30 MB max per container).
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # The bot has no HTTP surface, so this checks the bot.main process is alive
+    # (scans /proc — no external tools needed in python:slim).
+    healthcheck:
+      test: ["CMD", "python", "-c", "import glob,sys; sys.exit(0 if any(b'bot.main' in open(p,'rb').read() for p in glob.glob('/proc/[0-9]*/cmdline')) else 1)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  bot-data:

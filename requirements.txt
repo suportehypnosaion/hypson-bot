@@ -1,0 +1,7 @@
+# Meet-bot direct dependencies — pinned to exact versions for SOUP /
+# reproducibility (IEC 62304, US-039). Full resolved tree in
+# requirements.lock.txt. Tracked register: ../docs/SOUP.md.
+playwright==1.60.0
+SQLAlchemy==2.0.50
+PyMySQL==1.2.0
+python-dotenv==1.2.2
