@@ -14,7 +14,7 @@ waits for the pre-join page to settle, and reports the ground truth:
 
 Run inside the running container (profile already mounted):
 
-  docker compose exec psike-meet-bot \
+  docker compose exec hypson-bot \
     python -m scripts.diagnose_join "https://meet.google.com/xxx-xxxx-xxx"
 
 If no URL is given it uses accounts.google.com, which is enough to answer the

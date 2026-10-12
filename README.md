@@ -107,7 +107,7 @@ Cookies land in `./browser-profile/`. This folder **is a credential**
 — it's git-ignored on purpose. Transfer it to the server manually:
 
 ```bash
-rsync -av browser-profile/ user@SERVER:/opt/psike-meet-bot/browser-profile/
+rsync -av browser-profile/ user@SERVER:/opt/hypson-bot/browser-profile/
 ```
 
 The server never sees a login screen or 2FA — the copied cookies *are*
@@ -116,7 +116,7 @@ the session.
 ### 2. On the server
 
 ```bash
-cd /opt/psike-meet-bot
+cd /opt/hypson-bot
 cp .env.example .env && nano .env    # DB creds, TZ, HOST_UID=$(id -u)
 docker compose up -d --build
 docker compose logs -f               # watch it join sessions
@@ -195,7 +195,7 @@ with both switched off in software; recording is unaffected.
 After `MAX_JOIN_ATTEMPTS` failures a session is skipped permanently.
 Force a retry:
 ```bash
-docker exec psike-meet-bot python -c "
+docker exec hypson-bot python -c "
 import sqlite3; c=sqlite3.connect('/data/bot-state.sqlite')
 c.execute('DELETE FROM handled_sessions WHERE session_id=<ID>'); c.commit()"
 ```
@@ -209,7 +209,7 @@ there?"). Harmless — with real participants present it never happens.
 ## Folder layout
 
 ```
-psike-meet-bot/
+hypson-bot/
 ├── README.md
 ├── DEPLOYMENT.md              # server deployment runbook (Docker)
 ├── requirements.txt

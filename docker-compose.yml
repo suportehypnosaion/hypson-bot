@@ -1,12 +1,12 @@
 services:
-  psike-meet-bot:
+  hypson-bot:
     build:
       context: .
       args:
         # Must equal `id -u` of whoever owns ./browser-profile on the
         # host. Set HOST_UID in .env (or export it) before building.
         HOST_UID: ${HOST_UID:-1000}
-    container_name: psike-meet-bot
+    container_name: hypson-bot
     restart: unless-stopped
     env_file: .env
     network_mode: host

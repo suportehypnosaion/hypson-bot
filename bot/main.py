@@ -42,7 +42,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-logger = logging.getLogger("psike-meet-bot")
+logger = logging.getLogger("hypson-bot")
 
 
 # In-process set of OCCURRENCES currently being joined, keyed by

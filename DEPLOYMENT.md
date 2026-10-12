@@ -3,7 +3,7 @@
 Step-by-step runbook for deploying this service on a server/VM with
 Docker. For what the service *does* and the full config reference,
 see [README.md](README.md). Server path used throughout:
-`/opt/hypson/psike-meet-bot` — adjust if yours differs.
+`/opt/hypson/hypson-bot` — adjust if yours differs.
 
 ---
 
@@ -31,7 +31,7 @@ see [README.md](README.md). Server path used throughout:
 Must run on Linux — see the prerequisites note above.
 
 ```bash
-cd psike-meet-bot
+cd hypson-bot
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 python -m scripts.setup_profile     # sign in as the host account, finish 2FA
@@ -63,7 +63,7 @@ match is found. Do not proceed to step 1.2 if it fails.
 rsync -av \
   --exclude venv --exclude .git --exclude .env \
   --exclude bot-state.sqlite \
-  ./  root@SERVER:/opt/hypson/psike-meet-bot/
+  ./  root@SERVER:/opt/hypson/hypson-bot/
 ```
 
 This includes `browser-profile/`. The excludes matter:
@@ -73,7 +73,7 @@ This includes `browser-profile/`. The excludes matter:
 ### 1.3 Create the server's `.env` (SERVER)
 
 ```bash
-cd /opt/hypson/psike-meet-bot
+cd /opt/hypson/hypson-bot
 cp .env.example .env
 nano .env
 ```
@@ -146,10 +146,10 @@ Check each one:
 # LOCAL: same rsync as step 1.2
 rsync -av --exclude venv --exclude .git --exclude .env \
   --exclude bot-state.sqlite \
-  ./  root@SERVER:/opt/hypson/psike-meet-bot/
+  ./  root@SERVER:/opt/hypson/hypson-bot/
 
 # SERVER: rebuild (a plain restart does NOT pick up code or .env changes)
-cd /opt/hypson/psike-meet-bot
+cd /opt/hypson/hypson-bot
 docker compose up -d --build
 docker compose logs -f      # confirm the three startup lines again
 ```
@@ -168,11 +168,11 @@ python -m scripts.setup_profile
 python -m scripts.verify_profile
 
 # LOCAL: ship only the profile
-rsync -av browser-profile/ root@SERVER:/opt/hypson/psike-meet-bot/browser-profile/
+rsync -av browser-profile/ root@SERVER:/opt/hypson/hypson-bot/browser-profile/
 
 # SERVER: restore ownership (rsync as root resets it), then restart
-chown -R 1000:1000 /opt/hypson/psike-meet-bot/browser-profile
-docker compose restart psike-meet-bot
+chown -R 1000:1000 /opt/hypson/hypson-bot/browser-profile
+docker compose restart hypson-bot
 ```
 
 ---
